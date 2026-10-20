@@ -5,4 +5,7 @@ mkdir -p data
 python3 init_db.py || true
 python3 fetch_tokens.py || true
 python3 sidecar.py >> data/sidecar.log 2>&1 &
-exec python3 -u dashscope_hunt.py --loop
+while true; do
+  timeout 3000 python3 -u dashscope_hunt.py --loop
+  python3 fetch_tokens.py || true
+done
